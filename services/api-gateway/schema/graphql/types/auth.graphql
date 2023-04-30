@@ -1,0 +1,7 @@
+type IdentifierResponse {
+  identifier: String!
+}
+
+type TokenResponse {
+  token: String!
+}

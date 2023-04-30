@@ -1,0 +1,7 @@
+type HelloWorld {
+  message: String!
+}
+
+type ChangeHelloWorld {
+  greetingChanged: String!
+}

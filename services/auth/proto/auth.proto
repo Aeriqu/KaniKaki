@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package aeriqu.wk_kanji_write.auth;
+
+option go_package = "github.com/Aeriqu/kanikaki/services/auth";
+
+service Auth {
+  rpc ChangePassword(ChangePasswordRequest) returns (IdentifierResponse) {}
+  rpc Login (LoginRequest) returns (TokenResponse) {}
+  rpc Logout (LogoutRequest) returns (TokenResponse) {}
+  rpc RefreshToken(RefreshTokenRequest) returns (TokenResponse) {}
+  rpc Signup (SignupRequest) returns (TokenResponse) {}
+  rpc ValidateToken(ValidateTokenRequest) returns (IdentifierResponse) {}
+}
+
+message ChangePasswordRequest {
+  string identifier = 1;
+  string oldCredential = 2;
+  string newCredential = 3;
+  string token = 4;
+}
+
+message SignupRequest {
+  string identifier = 1;
+  string credential = 2;
+}
+
+message LoginRequest {
+  string identifier = 1;
+  string credential = 2;
+}
+
+message LogoutRequest {
+  string identifier = 1;
+  string token = 2;
+}
+
+message RefreshTokenRequest {
+  string identifier = 1;
+  string token = 2;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message IdentifierResponse {
+  string identifier = 1;
+}
+
+message TokenResponse {
+  string token = 1;
+}

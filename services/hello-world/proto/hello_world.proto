@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package aeriqu.wk_kanji_write.hello_world;
+
+option go_package = "github.com/Aeriqu/kanikaki/services/hello-world";
+
+service HelloWorld {
+  rpc Hello (HelloRequest) returns (HelloResponse) {}
+  rpc ChangeHello (ChangeHelloRequest) returns (ChangeHelloResponse) {}
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string message = 1;
+}
+
+message ChangeHelloRequest {
+  string greeting = 1;
+}
+
+message ChangeHelloResponse {
+  string greeting_changed = 1;
+}

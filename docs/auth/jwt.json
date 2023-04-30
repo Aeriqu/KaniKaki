@@ -1,0 +1,8 @@
+{
+  "alg": "HS512",
+  "typ": "JWT"
+}
+{
+  "exp": 1682598882,
+  "sub": "testUser"
+}
