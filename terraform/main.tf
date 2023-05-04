@@ -12,7 +12,7 @@ provider "kubernetes" {
   config_context = var.kubernetes_config_context
 }
 
-resource "kubernetes_namespace_v1" "wk_kanji_write" {
+resource "kubernetes_namespace_v1" "kanikaki" {
   metadata {
     name = "kanikaki"
   }

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package aeriqu.kanikaki.kanji;
+
+option go_package = "github.com/Aeriqu/kanikaki/services/kanji";
+
+service Kanji {
+  rpc GetKanji (KanjiRequest) returns (KanjiResponse) {}
+  rpc GetKanjiByLevelRange (KanjiLevelRangeRequest) returns (stream KanjiResponse) {}
+  rpc LoadAllKanji (WaniKaniTokenRequest) returns (LoadKanjiResponse) {}
+}
+
+message KanjiRequest {
+  string kanji = 1;
+  string auth_token = 2;
+}
+
+message KanjiLevelRangeRequest {
+  int32 lower_bound = 1;
+  int32 upper_bound = 2;
+  string auth_token = 3;
+}
+
+message WaniKaniTokenRequest {
+  string wanikani_token = 1;
+  string auth_token = 2;
+}
+
+message KanjiResponse {
+  string character = 1;
+  int32 wanikani_id = 2;
+  int32 wanikani_level = 3;
+  repeated string meanings = 4;
+  repeated string onyomi = 5;
+  repeated string kunyomi = 6;
+  repeated string nanori = 7;
+}
+
+message LoadKanjiResponse {
+  repeated string characters_added = 1;
+}

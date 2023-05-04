@@ -2,7 +2,7 @@ resource "kubernetes_ingress_v1" "nginx" {
   wait_for_load_balancer = true
   metadata {
     name      = "nginx-ingress"
-    namespace = kubernetes_namespace_v1.wk_kanji_write.metadata.0.name
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
     // annotations are intended to allow cors for the local development environment
     // so complete docker rebuilds and redeploys aren't required. since it's localhost
     // this shouldn't pose too much of a risk.

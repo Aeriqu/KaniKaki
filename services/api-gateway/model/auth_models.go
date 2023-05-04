@@ -1,3 +1,6 @@
+// Package model contains all of the packages for graphql related requests
+// this ends being similar, but different from the protobuf models because
+// graphql requires a pointers under certain conditions.
 package model
 
 type ChangePasswordRequest struct {
@@ -17,10 +20,6 @@ type LogoutRequest struct {
 
 type RefreshTokenRequest struct {
 	Identifier *string
-}
-
-type ValidateTokenRequest struct {
-	Token string
 }
 
 type SignupRequest struct {

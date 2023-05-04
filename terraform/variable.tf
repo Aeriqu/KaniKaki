@@ -20,6 +20,16 @@ variable "mongodb_auth_password" {
   sensitive = true
 }
 
+variable "mongodb_kanji_username" {
+  type = string
+  sensitive = true
+}
+
+variable "mongodb_kanji_password" {
+  type = string
+  sensitive = true
+}
+
 variable "credential_salt" {
   type = string
   sensitive = true

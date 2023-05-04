@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package aeriqu.wk_kanji_write.auth;
+package aeriqu.kanikaki.auth;
 
 option go_package = "github.com/Aeriqu/kanikaki/services/auth";
 

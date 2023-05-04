@@ -40,7 +40,7 @@ func NewAuthClient(cc grpc.ClientConnInterface) AuthClient {
 
 func (c *authClient) ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*IdentifierResponse, error) {
 	out := new(IdentifierResponse)
-	err := c.cc.Invoke(ctx, "/aeriqu.wk_kanji_write.auth.Auth/ChangePassword", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aeriqu.kanikaki.auth.Auth/ChangePassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (c *authClient) ChangePassword(ctx context.Context, in *ChangePasswordReque
 
 func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	out := new(TokenResponse)
-	err := c.cc.Invoke(ctx, "/aeriqu.wk_kanji_write.auth.Auth/Login", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aeriqu.kanikaki.auth.Auth/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.C
 
 func (c *authClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	out := new(TokenResponse)
-	err := c.cc.Invoke(ctx, "/aeriqu.wk_kanji_write.auth.Auth/Logout", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aeriqu.kanikaki.auth.Auth/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (c *authClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc
 
 func (c *authClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	out := new(TokenResponse)
-	err := c.cc.Invoke(ctx, "/aeriqu.wk_kanji_write.auth.Auth/RefreshToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aeriqu.kanikaki.auth.Auth/RefreshToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (c *authClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, 
 
 func (c *authClient) Signup(ctx context.Context, in *SignupRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	out := new(TokenResponse)
-	err := c.cc.Invoke(ctx, "/aeriqu.wk_kanji_write.auth.Auth/Signup", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aeriqu.kanikaki.auth.Auth/Signup", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func (c *authClient) Signup(ctx context.Context, in *SignupRequest, opts ...grpc
 
 func (c *authClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*IdentifierResponse, error) {
 	out := new(IdentifierResponse)
-	err := c.cc.Invoke(ctx, "/aeriqu.wk_kanji_write.auth.Auth/ValidateToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aeriqu.kanikaki.auth.Auth/ValidateToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ func _Auth_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aeriqu.wk_kanji_write.auth.Auth/ChangePassword",
+		FullMethod: "/aeriqu.kanikaki.auth.Auth/ChangePassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServer).ChangePassword(ctx, req.(*ChangePasswordRequest))
@@ -168,7 +168,7 @@ func _Auth_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aeriqu.wk_kanji_write.auth.Auth/Login",
+		FullMethod: "/aeriqu.kanikaki.auth.Auth/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServer).Login(ctx, req.(*LoginRequest))
@@ -186,7 +186,7 @@ func _Auth_Logout_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aeriqu.wk_kanji_write.auth.Auth/Logout",
+		FullMethod: "/aeriqu.kanikaki.auth.Auth/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServer).Logout(ctx, req.(*LogoutRequest))
@@ -204,7 +204,7 @@ func _Auth_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aeriqu.wk_kanji_write.auth.Auth/RefreshToken",
+		FullMethod: "/aeriqu.kanikaki.auth.Auth/RefreshToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServer).RefreshToken(ctx, req.(*RefreshTokenRequest))
@@ -222,7 +222,7 @@ func _Auth_Signup_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aeriqu.wk_kanji_write.auth.Auth/Signup",
+		FullMethod: "/aeriqu.kanikaki.auth.Auth/Signup",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServer).Signup(ctx, req.(*SignupRequest))
@@ -240,7 +240,7 @@ func _Auth_ValidateToken_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aeriqu.wk_kanji_write.auth.Auth/ValidateToken",
+		FullMethod: "/aeriqu.kanikaki.auth.Auth/ValidateToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServer).ValidateToken(ctx, req.(*ValidateTokenRequest))
@@ -252,7 +252,7 @@ func _Auth_ValidateToken_Handler(srv interface{}, ctx context.Context, dec func(
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Auth_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "aeriqu.wk_kanji_write.auth.Auth",
+	ServiceName: "aeriqu.kanikaki.auth.Auth",
 	HandlerType: (*AuthServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

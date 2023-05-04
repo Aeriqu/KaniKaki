@@ -1,0 +1,13 @@
+type KanjiResponse {
+  Character: String!
+  WanikaniId: Int!
+  WanikaniLevel: Int!
+  Meanings: [String!]
+  Onyomi: [String!]
+  Kunyomi: [String!]
+  Nanori: [String!]
+}
+
+type LoadKanjiResponse {
+  CharactersAdded: [String!]
+}

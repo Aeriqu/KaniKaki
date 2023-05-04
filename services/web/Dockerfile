@@ -1,4 +1,4 @@
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 
 ENV NEXT_TELEMETRY_DISABLED 1
 WORKDIR /app
@@ -10,7 +10,7 @@ RUN yarn install --frozen-lockfile
 RUN yarn build
 
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production

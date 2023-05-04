@@ -1,6 +1,6 @@
 import { GraphQLUtils } from '@/utils/graphql/GraphQLUtils';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Dashboard() {
   let router = useRouter();

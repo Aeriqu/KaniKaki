@@ -1,7 +1,7 @@
 resource "kubernetes_deployment_v1" "api-gateway" {
   metadata {
     name      = "api-gateway-deployment"
-    namespace = kubernetes_namespace_v1.wk_kanji_write.metadata.0.name
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
 
     labels = {
       app = "api-gateway-deployment"
@@ -43,7 +43,7 @@ resource "kubernetes_deployment_v1" "api-gateway" {
 resource "kubernetes_deployment_v1" "auth" {
   metadata {
     name      = "auth-deployment"
-    namespace = kubernetes_namespace_v1.wk_kanji_write.metadata.0.name
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
 
     labels = {
       app = "auth-deployment"
@@ -97,10 +97,62 @@ resource "kubernetes_deployment_v1" "auth" {
   }
 }
 
+resource "kubernetes_deployment_v1" "kanji" {
+  metadata {
+    name      = "kanji-deployment"
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
+
+    labels = {
+      app = "kanji-deployment"
+    }
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = {
+        app = "kanji-deployment"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "kanji-deployment"
+        }
+      }
+      spec {
+        container {
+          image             = "aeriqu/kanikaki/kanji:latest"
+          image_pull_policy = "Never"
+          name              = "kanji"
+
+          port {
+            container_port = 8080
+          }
+
+          env {
+            name  = "MONGODB_USERNAME"
+            value = var.mongodb_kanji_username
+          }
+
+          env {
+            name  = "MONGODB_PASSWORD"
+            value = var.mongodb_kanji_password
+          }
+
+          env {
+            name  = "JWT_SIGNING_KEY"
+            value = var.jwt_signing_key
+          }
+        }
+      }
+    }
+  }
+}
+
 resource "kubernetes_stateful_set_v1" "mongodb-auth" {
   metadata {
     name      = "mongodb-auth-set"
-    namespace = kubernetes_namespace_v1.wk_kanji_write.metadata.0.name
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
 
     labels = {
       app = "mongodb-auth-set"
@@ -162,36 +214,64 @@ resource "kubernetes_stateful_set_v1" "mongodb-auth" {
   }
 }
 
-resource "kubernetes_deployment_v1" "hello-world" {
+resource "kubernetes_stateful_set_v1" "mongodb-kanji" {
   metadata {
-    name      = "hello-world-deployment"
-    namespace = kubernetes_namespace_v1.wk_kanji_write.metadata.0.name
+    name      = "mongodb-kanji-set"
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
 
     labels = {
-      app = "hello-world-deployment"
+      app = "mongodb-kanji-set"
     }
   }
   spec {
-    replicas = 1
+    service_name = "mongodb-kanji-set"
+    replicas     = 1
     selector {
       match_labels = {
-        app = "hello-world-deployment"
+        app = "mongodb-kanji-set"
       }
     }
     template {
       metadata {
         labels = {
-          app = "hello-world-deployment"
+          app = "mongodb-kanji-set"
         }
       }
       spec {
         container {
-          image             = "aeriqu/kanikaki/hello-world:latest"
-          image_pull_policy = "Never"
-          name              = "hello-world"
+          image             = var.mongodb_image_version
+          image_pull_policy = "IfNotPresent"
+          name              = "mongodb-kanji"
 
           port {
-            container_port = 8080
+            container_port = 27017
+          }
+
+          env {
+            name  = "MONGO_INITDB_ROOT_USERNAME"
+            value = var.mongodb_kanji_username
+          }
+
+          env {
+            name  = "MONGO_INITDB_ROOT_PASSWORD"
+            value = var.mongodb_kanji_password
+          }
+
+          env {
+            name  = "MONGO_INITDB_DATABASE"
+            value = "kanji"
+          }
+
+          volume_mount {
+            name       = "mongodb-kanji-volume-data-db"
+            mount_path = "/data/db"
+          }
+        }
+
+        volume {
+          name = "mongodb-kanji-volume-data-db"
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim_v1.mongodb-kanji.metadata.0.name
           }
         }
       }
@@ -199,10 +279,53 @@ resource "kubernetes_deployment_v1" "hello-world" {
   }
 }
 
+resource "kubernetes_deployment_v1" "wanikani" {
+  metadata {
+    name      = "wanikani-deployment"
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
+
+    labels = {
+      app = "wanikani-deployment"
+    }
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = {
+        app = "wanikani-deployment"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "wanikani-deployment"
+        }
+      }
+      spec {
+        container {
+          image             = "aeriqu/kanikaki/wanikani:latest"
+          image_pull_policy = "Never"
+          name              = "wanikani"
+
+          port {
+            container_port = 8080
+          }
+
+          env {
+            name  = "JWT_SIGNING_KEY"
+            value = var.jwt_signing_key
+          }
+        }
+      }
+    }
+  }
+}
+
+
 resource "kubernetes_deployment_v1" "web" {
   metadata {
     name      = "web-deployment"
-    namespace = kubernetes_namespace_v1.wk_kanji_write.metadata.0.name
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
 
     labels = {
       app = "web-deployment"

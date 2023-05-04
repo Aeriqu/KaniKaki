@@ -1,33 +1,12 @@
-
-
-# generate certs for k8s
-.PHONY: generate-ssl
-generate-ssl:
-	generate-ssl-ca
-	generate-ssl-server
-
-.PHONY: generate-ssl-ca
-generate-ssl-ca:
-	cfssl gencert -initca ./certs/ca/ca-csr.json | cfssljson -bare ./certs/ca/ca
-
-.PHONY: generate-ssl-server
-generate-ssl-server:
-	cfssl gencert -ca=./certs/ca/ca.pem -ca-key=./certs/ca/ca-key.pem --config=./certs/ca/ca-config.json -profile=kubernetes ./certs/server/server-csr.json | cfssljson -bare ./certs/server/server
-
-
 # build the apps
 .PHONY: build-all
-build-all: proto-gen hello-world api-gateway auth web
+build-all: proto-gen api-gateway auth kanji wanikani web
 
 .PHONY: proto-gen
 proto-gen:
-	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/hello-world/proto/hello_world.proto
 	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/auth/proto/auth.proto
+	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/kanji/proto/kanji.proto
 	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/wanikani/proto/wanikani.proto
-
-.PHONY: hello-world
-hello-world:
-	docker build -t aeriqu/kanikaki/hello-world:latest --file ./services/hello-world/Dockerfile .
 
 .PHONY: api-gateway
 api-gateway:
@@ -37,13 +16,17 @@ api-gateway:
 auth:
 	docker build -t aeriqu/kanikaki/auth:latest --file ./services/auth/Dockerfile .
 
-.PHONY: web
-web:
-	docker build -t aeriqu/kanikaki/web:latest --file ./services/web/Dockerfile .
+.PHONY: kanji
+kanji:
+	docker build -t aeriqu/kanikaki/kanji:latest --file ./services/kanji/Dockerfile .
 
 .PHONY: wanikani
 wanikani:
 	docker build -t aeriqu/kanikaki/wanikani:latest --file ./services/wanikani/Dockerfile .
+
+.PHONY: web
+web:
+	docker build -t aeriqu/kanikaki/web:latest --file ./services/web/Dockerfile .
 
 
 # environment set up

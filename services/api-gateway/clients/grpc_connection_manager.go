@@ -1,9 +1,10 @@
 package clients
 
 import (
-	"log"
+	"fmt"
 	"sync"
 
+	"github.com/Aeriqu/kanikaki/common/logger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -31,12 +32,13 @@ func getConnection(location string) *grpc.ClientConn {
 	if connectionExisting, connectionExists := manager.Connections[location]; connectionExists {
 		connection = connectionExisting
 	} else {
-		connectionCreated, connectionError := grpc.Dial(location,
+		// TODO: Figure out transport security
+		connectionCreated, err := grpc.Dial(location,
 			grpc.WithTransportCredentials(insecure.NewCredentials()),
 		)
-		if connectionError != nil {
-			log.Printf("[GrpcClient - getConnection] Error creating connection to: %q", location)
-			log.Println(connectionError)
+		if err != nil {
+			errMsg := fmt.Sprintf("error creating connection to: %q", location)
+			logger.Error(errMsg, err)
 			return nil
 		}
 		manager.Connections[location] = connectionCreated

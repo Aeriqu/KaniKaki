@@ -7,8 +7,8 @@ RUN go mod download && go mod verify
 
 COPY ./common ./common
 COPY ./services/api-gateway ./services/api-gateway
-COPY ./services/hello-world/proto ./services/hello-world/proto
 COPY ./services/auth/proto ./services/auth/proto
+COPY ./services/kanji/proto ./services/kanji/proto
 RUN go build -o /usr/bin/api-gateway ./services/api-gateway
 
 

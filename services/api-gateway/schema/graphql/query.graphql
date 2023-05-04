@@ -4,18 +4,19 @@ schema {
 }
 
 type Query {
-  # Hello World
-  helloWorld(name: String): HelloWorld!
+  # Kanji
+  getKanji(kanji: String): KanjiResponse!
+  getKanjiByLevelRange(lowerBound: Int, upperBound: Int): [KanjiResponse!]!
 }
 
 type Mutation {
-  # Hello World
-  changeHelloWorld(greeting: String): ChangeHelloWorld!
-
   # Auth
   changePassword(identifier: String, oldCredential: String, newCredential: String): IdentifierResponse!
   login(identifier: String, credential: String): TokenResponse!
   logout(identifier: String): TokenResponse!
   refreshToken(identifier: String): TokenResponse!
   signup(identifier: String, credential: String): TokenResponse!
+
+  # Kanji
+  loadAllKanji(wanikaniToken: String): LoadKanjiResponse!
 }

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package aeriqu.kanikaki.wanikani;
+
+option go_package = "github.com/Aeriqu/kanikaki/services/wanikani";
+
+service WaniKani {
+  rpc GetAllKanji (WaniKaniTokenRequest) returns (stream KanjiResponse) {}
+}
+
+message WaniKaniTokenRequest {
+  string wanikani_token = 1;
+  string auth_token = 2;
+}
+
+message KanjiResponse {
+  string character = 1;
+  int32 wanikani_id = 2;
+  int32 wanikani_level = 3;
+  repeated string meanings = 4;
+  repeated string onyomi = 5;
+  repeated string kunyomi = 6;
+  repeated string nanori = 7;
+}
