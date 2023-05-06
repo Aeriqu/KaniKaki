@@ -10,8 +10,6 @@ import (
 	"github.com/Aeriqu/kanikaki/common/logger"
 	"github.com/Aeriqu/kanikaki/services/api-gateway/model"
 	kanjipb "github.com/Aeriqu/kanikaki/services/kanji/proto"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 var kanjiClientInstance *KanjiClient
@@ -23,10 +21,7 @@ type KanjiClient struct {
 
 // GetKanji sends a request to the kanji service to grab a given kanji
 func (client *KanjiClient) GetKanji(ctx context.Context, kanji string) (model.KanjiResponse, error) {
-	_, token, err := validateToken(ctx)
-	if err != nil {
-		return model.KanjiResponse{}, err
-	}
+	_, token, _ := validateToken(ctx)
 
 	request := &kanjipb.KanjiRequest{
 		Kanji:     kanji,
@@ -54,10 +49,7 @@ func (client *KanjiClient) GetKanji(ctx context.Context, kanji string) (model.Ka
 // GetKanjiByLevelRange sends a request to the kanji service to grab kanji
 // by a given level range.
 func (client *KanjiClient) GetKanjiByLevelRange(ctx context.Context, lowerBound int, upperBound int) ([]model.KanjiResponse, error) {
-	_, token, err := validateToken(ctx)
-	if err != nil {
-		return []model.KanjiResponse{}, err
-	}
+	_, token, _ := validateToken(ctx)
 
 	request := &kanjipb.KanjiLevelRangeRequest{
 		LowerBound: int32(lowerBound),
@@ -80,9 +72,8 @@ func (client *KanjiClient) GetKanjiByLevelRange(ctx context.Context, lowerBound 
 			kanjiClient.CloseSend()
 			break
 		} else if err != nil {
-			errMsg := "error obtaining kanji from the wanikani service"
-			logger.Error(errMsg, err)
-			return nil, status.Error(codes.Aborted, errMsg)
+			logger.Error("error obtaining kanji from the kanji service", err)
+			return nil, err
 		}
 
 		kanjiList = append(kanjiList, model.KanjiResponse{

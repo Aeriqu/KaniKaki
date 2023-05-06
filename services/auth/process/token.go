@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Aeriqu/kanikaki/common/logger"
+	"github.com/Aeriqu/kanikaki/services/auth/models"
 	"github.com/golang-jwt/jwt/v5"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -12,15 +13,17 @@ import (
 
 // generateToken generates a token for a given identifier and
 // returns the encoded token, its expiration time, and any potential errors
-func generateToken(identifier string) (string, int64, error) {
+func generateToken(user *models.User) (string, int64, error) {
 	signingKey := []byte(os.Getenv("JWT_SIGNING_KEY"))
 	expirationTime := time.Now().Add(time.Hour * 24 * 7)
 
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS512,
 		jwt.MapClaims{
-			"sub": identifier,
+			"sub": user.Username,
 			"exp": jwt.NewNumericDate(expirationTime),
+			"type": user.Type,
+			"wanikani_level_limit": user.WanikaniLevelLimit,
 		},
 	)
 

@@ -61,7 +61,7 @@ func Login(db *database.Database, identifier string, credential string) (string,
 		return "", status.Error(codes.Unauthenticated, "credentials do not match")
 	}
 
-	token, tokenExpirationTime, err := generateToken(identifier)
+	token, tokenExpirationTime, err := generateToken(user)
 	if err != nil {
 		return "", err
 	}
@@ -103,8 +103,13 @@ func RefreshToken(db *database.Database, identifier string, token string) (strin
 
 	logger.Info(fmt.Sprintf("refreshing token for user (%s)", identifier))
 
+	user, err := db.GetUserByIdentifier(identifier)
+	if err != nil {
+		return "", status.Error(codes.Unauthenticated, "identifier not found")
+	}
+
 	// Generate the token and replace it
-	newToken, newTokenExpirationTime, err := generateToken(identifier)
+	newToken, newTokenExpirationTime, err := generateToken(user)
 	if err != nil {
 		return "", err
 	}
@@ -137,7 +142,12 @@ func Signup(db *database.Database, identifier string, credential string) (string
 
 	logger.Info(fmt.Sprintf("created user (%s)", identifier))
 
-	token, tokenExpirationTime, err := generateToken(identifier)
+	user, err := db.GetUserByIdentifier(identifier)
+	if err != nil {
+		return "", status.Error(codes.Unauthenticated, "identifier not found")
+	}
+
+	token, tokenExpirationTime, err := generateToken(user)
 	if err != nil {
 		return "", err
 	}

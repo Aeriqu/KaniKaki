@@ -79,6 +79,8 @@ func (db *ProviderMongodb) AddUser(username string, passwordHash string) (string
 	user := models.User{
 		Username:   username,
 		Password:   passwordHash,
+		Type: 0,
+		WanikaniLevelLimit: 3,
 		AuthTokens: []models.Token{},
 	}
 

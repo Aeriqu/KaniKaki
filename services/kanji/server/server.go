@@ -3,6 +3,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/Aeriqu/kanikaki/common/logger"
@@ -22,15 +23,22 @@ type KanjiServer struct {
 }
 
 func (server *KanjiServer) GetKanji(ctx context.Context, req *kanjipb.KanjiRequest) (*kanjipb.KanjiResponse, error) {
-	// Check auth token validity
-	_, err := tokenValidator.GetClaims(req.AuthToken)
-	if err != nil {
-		return nil, status.Error(codes.Unauthenticated, "invalid token provided")
-	}
-
+	logger.Info(fmt.Sprintf("fetching kanji (%s)", req.Kanji))
 	kanji, err := server.Database.GetKanjiByCharacter(req.Kanji)
 	if err != nil {
 		return nil, err
+	}
+
+	if kanji.WaniKanilevel > 3 {
+		// Check auth token validity
+		claims, err := tokenValidator.GetClaims(req.AuthToken)
+		if err != nil {
+			return nil, status.Error(codes.Unauthenticated, "invalid token provided")
+		}
+
+		if limit, ok := claims["wanikani_level_limit"]; !ok || int(limit.(float64)) < kanji.WaniKanilevel {
+			return nil, status.Error(codes.PermissionDenied, "requires a wanikani subscription for levels higher than 3")
+		}
 	}
 
 	return &kanjipb.KanjiResponse{
@@ -45,10 +53,17 @@ func (server *KanjiServer) GetKanji(ctx context.Context, req *kanjipb.KanjiReque
 }
 
 func (server *KanjiServer) GetKanjiByLevelRange(req *kanjipb.KanjiLevelRangeRequest, stream kanjipb.Kanji_GetKanjiByLevelRangeServer) error {
+	logger.Info(fmt.Sprintf("fetching kanji range (%d-%d)", req.LowerBound, req.UpperBound))
 	// Check auth token validity
-	_, err := tokenValidator.GetClaims(req.AuthToken)
-	if err != nil {
-		return status.Error(codes.Unauthenticated, "invalid token provided")
+	if req.UpperBound > 3 {
+		claims, err := tokenValidator.GetClaims(req.AuthToken)
+		if err != nil {
+			return status.Error(codes.Unauthenticated, "valid token required for levels higher than 3")
+		}
+
+		if limit, ok := claims["wanikani_level_limit"]; !ok || int32(limit.(float64)) < req.UpperBound {
+			return status.Error(codes.PermissionDenied, "requires a wanikani subscription for levels higher than 3")
+		}
 	}
 
 	kanjiList, err := server.Database.GetKanjiByRange(int(req.LowerBound), int(req.UpperBound))
@@ -75,10 +90,19 @@ func (server *KanjiServer) GetKanjiByLevelRange(req *kanjipb.KanjiLevelRangeRequ
 }
 
 func (server *KanjiServer) LoadAllKanji(ctx context.Context, req *kanjipb.WaniKaniTokenRequest) (*kanjipb.LoadKanjiResponse, error) {
+	logger.Info("loading kanji database")
 	// Check auth token validity
-	_, err := tokenValidator.GetClaims(req.AuthToken)
+	jwtClaims, err := tokenValidator.GetClaims(req.AuthToken)
 	if err != nil {
-		return nil, status.Error(codes.Unauthenticated, "invalid token provided")
+		errMsg := "invalid token provided"
+		logger.Error(errMsg, err)
+		return nil, status.Error(codes.Unauthenticated, errMsg)
+	}
+
+	if userType, ok := jwtClaims["type"]; !ok || int(userType.(float64)) != 1 {
+		errMsg := "endpoint only valid for admins"
+		logger.Info(errMsg)
+		return nil, status.Error(codes.PermissionDenied, errMsg)
 	}
 
 	getAllKanjiRequest := wanikanipb.WaniKaniTokenRequest{
