@@ -37,3 +37,6 @@ next-env.d.ts
 # yarn
 .yarn/*
 .pnp.*
+
+# fonts
+src/fonts/**/

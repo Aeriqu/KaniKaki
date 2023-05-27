@@ -8,7 +8,7 @@ export const GraphQLClient = new ApolloClient({
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'no-cache',
-      errorPolicy: 'ignore',
+      errorPolicy: 'all',
     },
     query: {
       fetchPolicy: 'no-cache',

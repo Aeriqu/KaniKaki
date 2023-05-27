@@ -2,6 +2,8 @@
  * Home page contains the content of the home page.
  */
 
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className='h-[calc(100vh-5rem)] flex flex-col justify-items-center justify-around text-center pb-6'>
@@ -25,6 +27,9 @@ export default function Home() {
       </div>
       <div>
         <p>I&apos;m still imagining what it could be too.</p>
+      </div>
+      <div>
+        <Link className='underline decoration-solid' href="/demo">You can try it out here!</Link>
       </div>
     </div>
   )
