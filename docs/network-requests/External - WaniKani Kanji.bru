@@ -1,0 +1,21 @@
+meta {
+  name: External - WaniKani Kanji
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://api.wanikani.com/v2/subjects?types=kanji
+  body: none
+  auth: none
+}
+
+params:query {
+  types: kanji
+}
+
+headers {
+  Authorization: Bearer {{WANIKANI_KEY}}
+  Content-Type: application/x-www-form-urlencoded
+  Wanikani-Revision: 20170710
+}

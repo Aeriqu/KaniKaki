@@ -1,0 +1,19 @@
+meta {
+  name: Auth - Refresh Token
+  type: graphql
+  seq: 5
+}
+
+post {
+  url: http://localhost/api
+  body: graphql
+  auth: bearer
+}
+
+body:graphql {
+  mutation {
+  	refreshToken(identifier: "testUser") {
+  		token
+  	}
+  }
+}

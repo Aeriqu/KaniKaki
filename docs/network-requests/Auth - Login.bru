@@ -1,0 +1,19 @@
+meta {
+  name: Auth - Login
+  type: graphql
+  seq: 4
+}
+
+post {
+  url: http://localhost/api
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  mutation {
+  	login(identifier: "testUser", credential: "testPassword") {
+  		token
+  	}
+  }
+}

@@ -10,9 +10,7 @@ This is a project that I'm using to both learn different technology stacks and k
 
 The project is currently at the state of infrastructure proof of concept. The application is able to communicate between multiple microservices. The currently implemented microservices have a a basic implementation that gives them basic functionality to their overall end goal.
 
-This is the current level of implementation (blue) amongst what is also planned (orange).
-
-![current architecture](./docs/sys-arch-current.png)
+![overall architecture](./docs/sys-arch-overall.png)
 
 The next stage is to flesh out the services and reach a functioning proof concept phase.
 
