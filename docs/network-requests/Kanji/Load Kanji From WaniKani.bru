@@ -1,13 +1,17 @@
 meta {
-  name: Kanji - Load Kanji
+  name: Load Kanji From WaniKani
   type: graphql
-  seq: 6
+  seq: 3
 }
 
 post {
   url: http://localhost/api
   body: graphql
   auth: bearer
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
 }
 
 body:graphql {

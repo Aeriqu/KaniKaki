@@ -1,0 +1,27 @@
+meta {
+  name: Logout
+  type: graphql
+  seq: 3
+}
+
+post {
+  url: http://localhost/api
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
+}
+
+body:graphql {
+  mutation {
+  	logout(identifier: "testUser") {
+  		token
+  	}
+  }
+}
+
+script:post-response {
+  bru.setEnvVar("AUTH_TOKEN", null);
+}

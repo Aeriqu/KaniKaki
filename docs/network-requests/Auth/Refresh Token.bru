@@ -1,7 +1,7 @@
 meta {
-  name: Auth - Refresh Token
+  name: Refresh Token
   type: graphql
-  seq: 5
+  seq: 4
 }
 
 post {
@@ -10,10 +10,19 @@ post {
   auth: bearer
 }
 
+auth:bearer {
+  token: {{AUTH_TOKEN}}
+}
+
 body:graphql {
   mutation {
   	refreshToken(identifier: "testUser") {
   		token
   	}
   }
+}
+
+script:post-response {
+  let data = res.body.data;
+  bru.setEnvVar("AUTH_TOKEN", data.refreshToken.token);
 }

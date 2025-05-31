@@ -14,6 +14,10 @@ db.users.updateOne(
 )
 ```
 
+For local development, you can get shell access to the container and then run the following:
+
 ```
-db.users.updateOne({username: "usernameToElevate" },{$set:{type: 1}})
+mongosh --username mongodb-auth-test-username
+use auth
+db.users.updateOne({username: "testUser" }, {$set:{type: 1}})
 ```

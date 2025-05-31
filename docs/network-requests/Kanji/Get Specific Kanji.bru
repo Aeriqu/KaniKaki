@@ -1,0 +1,30 @@
+meta {
+  name: Get Specific Kanji
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: http://localhost/api
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
+}
+
+body:graphql {
+  query {
+    getKanji(kanji: "俸") {
+      Character
+      WanikaniId
+      WanikaniLevel
+      Meanings
+      Onyomi
+      Kunyomi
+      Nanori
+    }
+  }
+  
+}

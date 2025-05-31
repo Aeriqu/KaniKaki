@@ -1,0 +1,30 @@
+meta {
+  name: Get Kanji By Level Range
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: http://localhost/api
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
+}
+
+body:graphql {
+  query {
+    getKanjiByLevelRange(lowerBound: 0, upperBound: 60) {
+      Character
+      WanikaniId
+      WanikaniLevel
+      Meanings
+      Onyomi
+      Kunyomi
+      Nanori
+    }
+  }
+  
+}

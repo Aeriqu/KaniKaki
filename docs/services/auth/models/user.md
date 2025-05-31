@@ -26,3 +26,9 @@
 * `auth_tokens`: A list of jwt tokens that the user can log in with
   * `jwt`: The jwt token
   * `expiration`: The expiration of the jwt token
+
+For manually updating a user's level limit:
+```
+use auth
+db.users.updateOne( { username: "testUser" }, { $set: { wanikani_level_limit: 5 } } )
+```

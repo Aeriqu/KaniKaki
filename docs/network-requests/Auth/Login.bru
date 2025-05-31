@@ -1,7 +1,7 @@
 meta {
-  name: Auth - Login
+  name: Login
   type: graphql
-  seq: 4
+  seq: 2
 }
 
 post {
@@ -16,4 +16,9 @@ body:graphql {
   		token
   	}
   }
+}
+
+script:post-response {
+  let data = res.body.data;
+  bru.setEnvVar("AUTH_TOKEN", data.login.token);
 }
