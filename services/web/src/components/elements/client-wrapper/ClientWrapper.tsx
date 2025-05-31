@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
  * client.
  * @param param0 FC inputs {children, ...props}
  */
-export default function ClientWrapper({ children, ...props }: FCProps) {
+export default function ClientWrapper({ children, ...props }: Readonly<FCProps>) {
   const [hasMounted, setHasMounted] = useState(false)
 
   useEffect(() => {

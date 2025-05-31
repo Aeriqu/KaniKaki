@@ -25,7 +25,7 @@ func main() {
 	logger.Info("setting up connection with the wanikani service")
 	wanikaniLocation := "wanikani.kanikaki.svc.cluster.local:80"
 	// TODO: Figure out transport security
-	wanikaniConnection, err := grpc.Dial(
+	wanikaniConnection, err := grpc.NewClient(
 		wanikaniLocation,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)

@@ -1,6 +1,6 @@
 import { ErrorBannerProp } from "@/types/ErrorBannerProp";
 
-export function ErrorBanner({ error }: ErrorBannerProp) {
+export function ErrorBanner({ error }: Readonly<ErrorBannerProp>) {
   if (!error) {
     return (
       <></>

@@ -1,6 +1,6 @@
 import { KanjiInfoProp } from "@/types/KanjiInfoProp";
 
-export function KanjiInfo({ kanji }: KanjiInfoProp) {
+export function KanjiInfo({ kanji }: Readonly<KanjiInfoProp>) {
   let meaning, otherMeanings, onyomi, kunyomi, nanori = <span></span>;
 
   // Main Meaning

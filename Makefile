@@ -32,7 +32,7 @@ web:
 # environment set up
 .PHONY: docker-k8s-ingress
 docker-k8s-ingress:
-	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/cloud/deploy.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.2/deploy/static/provider/cloud/deploy.yaml
 
 # deploy
 .PHONY: deploy

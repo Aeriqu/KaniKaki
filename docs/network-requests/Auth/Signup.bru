@@ -17,3 +17,8 @@ body:graphql {
   	}
   }
 }
+
+script:post-response {
+  let data = res.body.data;
+  bru.setEnvVar("AUTH_TOKEN", data.signup.token);
+}

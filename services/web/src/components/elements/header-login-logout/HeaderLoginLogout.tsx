@@ -29,7 +29,7 @@ export default function HeaderLoginLogout() {
 
   if (GraphQLUtils.getToken()) {
     return (
-      <a href="#" onClick={logout}>Logout</a>
+      <button onClick={logout}>Logout</button>
     )
   }
 

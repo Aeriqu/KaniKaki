@@ -1,4 +1,4 @@
-FROM golang:1.20.3-alpine3.17 AS build
+FROM golang:1.24.3-alpine3.21 AS build
 
 WORKDIR /usr/src/app
 
@@ -11,7 +11,7 @@ COPY ./services/kanji ./services/kanji
 RUN go build -o /usr/bin/kanji ./services/kanji
 
 
-FROM alpine:3.17
+FROM alpine:3.21
 
 COPY --from=build /usr/bin/kanji /usr/bin/
 

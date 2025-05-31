@@ -21,12 +21,12 @@ Other diagrams and documents may be found in the docs folder of this repository.
 ### Prereqs
 | Dependency | Version |
 | - | :-: |
-| [Go](https://go.dev/) | 1.2.0 |
-| [protoc](https://grpc.io/docs/protoc-installation/) | 3+ |
-| [protoc-gen-go](https://grpc.io/docs/languages/go/quickstart/) | 1.2.8 |
-| [protoc-gen-go-grpc](https://grpc.io/docs/languages/go/quickstart/) | 1.2 |
-| [Node.js](https://nodejs.org/) | 20.0.0 |
-| [Yarn](https://yarnpkg.com/getting-started/install) | 2+ |
+| [Go](https://go.dev/) | 1.24.3 |
+| [protoc](https://protobuf.dev/installation/) | 29.3 |
+| [protoc-gen-go](https://grpc.io/docs/languages/go/quickstart/) | 1.5.1 |
+| [protoc-gen-go-grpc](https://grpc.io/docs/languages/go/quickstart/) | 1.34.1 |
+| [Node.js](https://nodejs.org/) | 22.13.0 |
+| [Yarn](https://yarnpkg.com/getting-started/install) | 4.9.1 |
 
 There are multiple ways to deploy this with the right terraform configuration. The one that is currently provides uses docker desktop as a way to conveniently develop on my desktop.
 
@@ -40,7 +40,7 @@ There are multiple ways to deploy this with the right terraform configuration. T
       2. Place the font under `services\web\src\fonts\KanjiStrokeOrders` as `KanjiStrokeOrders.ttf`
     * Handwritten font:
       1. Obtain the font ([full version](https://booth.pm/ja/items/4186930) or [free trial](https://ilamemo.booth.pm/items/4186864))
-      2. Place the font under `services\web\src\fonts\LeftHanded` as `LeftHanded.ttf`
+      2. Place the font under `services\web\src\fonts\LeftHanded` as `LeftHanded.otf`
 5. Run `make docker-k8s-ingress` (at some point I want to include the ingress into the terraform scripts so this extra step isn't needed)
 6. Run `make redeploy`
 

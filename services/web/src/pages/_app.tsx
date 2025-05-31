@@ -1,5 +1,5 @@
 import HeaderLayout from '@/components/layouts/HeaderLayout'
-import { mainFont, handwrittenFont } from '@/fonts/fonts'
+import { mainFont } from '@/fonts/fonts'
 import '@/styles/globals.css'
 import { GraphQLClient } from '@/utils/graphql/GraphQLClient'
 import { ApolloProvider } from '@apollo/client'
@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={`${mainFont.variable} ${handwrittenFont.variable} font-main`}>
+    <main className={`${mainFont.className}`}>
       <ApolloProvider client={GraphQLClient}>
         <HeaderLayout>
           <Component {...pageProps} />

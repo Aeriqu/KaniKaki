@@ -33,7 +33,7 @@ func getConnection(location string) *grpc.ClientConn {
 		connection = connectionExisting
 	} else {
 		// TODO: Figure out transport security
-		connectionCreated, err := grpc.Dial(location,
+		connectionCreated, err := grpc.NewClient(location,
 			grpc.WithTransportCredentials(insecure.NewCredentials()),
 		)
 		if err != nil {

@@ -2,11 +2,11 @@ import { KanjiInfo } from "@/components/elements/kanji-info/KanjiInfo";
 import { ReactSketchCanvas, ReactSketchCanvasRef } from "react-sketch-canvas";
 import { createRef, useEffect, useRef, useState } from 'react';
 import { ArrowPathIcon, ArrowUturnLeftIcon, ArrowUturnRightIcon } from '@heroicons/react/24/solid'
-import { strokeOrderFont } from "@/fonts/fonts";
+import { handwrittenFont, strokeOrderFont } from "@/fonts/fonts";
 import { Kanji } from "@/types/Kanji";
 import { KanjiListContinueProp } from "@/types/KanjiListContinueProp";
 
-export default function KanjiReview({ kanjiList, continueHandler }: KanjiListContinueProp) {
+export default function KanjiReview({ kanjiList, continueHandler }: Readonly<KanjiListContinueProp>) {
   const canvasRef = createRef<ReactSketchCanvasRef>();
   const [answer, setAnswer] = useState('');
   const [activeKanji, setActiveKanji] = useState<Kanji>({
@@ -18,9 +18,9 @@ export default function KanjiReview({ kanjiList, continueHandler }: KanjiListCon
     Kunyomi: [],
     Nanori: [],
   });
-  const nextKanjiIndex = useRef<number>();
-  const reviewingKanji = useRef<Kanji[]>();
-  const activeKanjiIndex = useRef<number>();
+  const nextKanjiIndex = useRef<number>(0);
+  const reviewingKanji = useRef<Kanji[]>(new Array<Kanji>());
+  const activeKanjiIndex = useRef<number>(0);
   const correctKanji = useRef<Map<Kanji, boolean>>(new Map<Kanji, boolean>());
   const incorrectKanji = useRef<Map<Kanji, boolean>>(new Map<Kanji, boolean>());
 
@@ -56,34 +56,34 @@ export default function KanjiReview({ kanjiList, continueHandler }: KanjiListCon
         // TODO: Send the request to SRS to mark as correct
         correctKanji.current?.set(activeKanji, true);
       }
-      reviewingKanji.current!.splice(activeKanjiIndex.current!, 1);
-      if (nextKanjiIndex.current! < kanjiList.length) {
-        reviewingKanji.current!.push(kanjiList[nextKanjiIndex.current!]);
-        nextKanjiIndex.current!++;
+      reviewingKanji.current.splice(activeKanjiIndex.current, 1);
+      if (nextKanjiIndex.current < kanjiList.length) {
+        reviewingKanji.current.push(kanjiList[nextKanjiIndex.current]);
+        nextKanjiIndex.current++;
       }
     }
     else {
       incorrectKanji.current?.set(activeKanji, true);
     }
 
-    if (reviewingKanji.current!.length == 0) {
+    if (reviewingKanji.current.length == 0) {
       continueHandler(correctKanji, incorrectKanji);
       return;
     }
 
-    let newRandom = Math.floor(Math.random() * reviewingKanji.current!.length);
-    while (reviewingKanji.current!.length > 1 && newRandom === activeKanjiIndex.current) {
-      newRandom = Math.floor(Math.random() * reviewingKanji.current!.length);
+    let newRandom = Math.floor(Math.random() * reviewingKanji.current.length);
+    while (reviewingKanji.current.length > 1 && newRandom === activeKanjiIndex.current) {
+      newRandom = Math.floor(Math.random() * reviewingKanji.current.length);
     }
     activeKanjiIndex.current = newRandom;
-    setActiveKanji(reviewingKanji.current![activeKanjiIndex.current]);
+    setActiveKanji(reviewingKanji.current[activeKanjiIndex.current]);
 
     canvasRef.current?.resetCanvas();
     setAnswer('');
   }
 
   return (
-    <div className={`grid grid-cols-3 h-full ${strokeOrderFont.variable}`}>
+    <div className={`grid grid-cols-3 h-full`}>
       {/* Kanji Info */}
       <div className="col-span-2 m-10 p-10 rounded">
         <KanjiInfo
@@ -96,12 +96,12 @@ export default function KanjiReview({ kanjiList, continueHandler }: KanjiListCon
               <p className="text-8xl">{answer}</p>
             </div>
             <div>
-              <p className='font-handwritten text-xl'>Handwritten</p>
-              <p className='text-9xl font-handwritten'>{answer}</p>
+              <p className={`text-xl ${handwrittenFont.className}`}>Handwritten</p>
+              <p className={`text-9xl ${handwrittenFont.className}`}>{answer}</p>
             </div>
             <div>
               <p className="text-xl">Stroke Order</p>
-              <p className='text-9xl font-stroke-order'>{answer}</p>
+              <p className={`text-9xl ${strokeOrderFont.className}`}>{answer}</p>
             </div>
           </div>
           : <></>

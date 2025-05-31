@@ -3,7 +3,7 @@ import KanjiSelect from "@/components/modules/kanji-select/KanjiSelect";
 import { Kanji } from "@/types/Kanji";
 import { kanji } from "@/utils/graphql/schema/kanji";
 import { useQuery } from "@apollo/client";
-import { MutableRefObject, useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { handwrittenFont } from "@/fonts/fonts";
 import KanjiResult from "@/components/modules/kanji-result/KanjiResult";
 
@@ -22,7 +22,7 @@ export default function Demo() {
     setDemoState('review');
   }
 
-  function kanjiReviewContinueHandler(correctKanji: MutableRefObject<Map<Kanji, boolean>>, incorrectKanji: MutableRefObject<Map<Kanji, boolean>>) {
+  function kanjiReviewContinueHandler(correctKanji: RefObject<Map<Kanji, boolean>>, incorrectKanji: RefObject<Map<Kanji, boolean>>) {
     kanjiResultsCorrect.current = Array.from(correctKanji.current.keys());
     kanjiResultsIncorrect.current = Array.from(incorrectKanji.current.keys());
     setDemoState('result');

@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/client';
 import { CogIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/router';
 
-export default function SignupButton({ username, password, setErrorState }: UsernamePasswordProp) {
+export default function SignupButton({ username, password, setErrorState }: Readonly<UsernamePasswordProp>) {
   const router = useRouter();
   const [signup, { data, loading, error, reset }] = useMutation(auth.mutationSignupDocument(username, password));
 
@@ -19,13 +19,13 @@ export default function SignupButton({ username, password, setErrorState }: User
   else if (loading) {
     return (
       <button type='button'
-        className='bg-orange-500 rounded-lg w-95 p-2 mr-1'>
+        className='bg-orange-500 rounded-lg p-2 mr-1'>
         <CogIcon className='animate-spin w-4 h-4 inline mr-1'></CogIcon>Working...
       </button>
     )
   }
   else if (data) {
-    if (!data.signup || !data.signup.token) {
+    if (!data.signup?.token) {
       setErrorState('token was not properly received from the server')
     }
     else {
@@ -39,7 +39,7 @@ export default function SignupButton({ username, password, setErrorState }: User
   return (
     <button type='button'
       onClick={signupHandler}
-      className='bg-orange-500 rounded-lg w-95 p-2 mr-1'>
+      className='bg-orange-500 rounded-lg p-2 mr-1'>
       Sign Up</button>
   )
 }

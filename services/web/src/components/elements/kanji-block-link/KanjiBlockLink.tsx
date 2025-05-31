@@ -1,10 +1,11 @@
+import { handwrittenFont } from '@/fonts/fonts';
 import { Kanji } from '@/types/Kanji';
 
 interface KanjiBlockLinkProp {
   kanji: Kanji,
 }
 
-export function KanjiBlockLink({ kanji }: KanjiBlockLinkProp) {
+export function KanjiBlockLink({ kanji }: Readonly<KanjiBlockLinkProp>) {
   return (
     <div className='
         group
@@ -13,7 +14,7 @@ export function KanjiBlockLink({ kanji }: KanjiBlockLinkProp) {
         p-2 m-2
         text-center
         break-words select-none'>
-      <p className={'text-3xl group-hover:font-handwritten'}>{kanji.Character}</p>
+      <p className={`text-3xl group-hover:${handwrittenFont.className}`}>{kanji.Character}</p>
       <p>{kanji.Meanings[0]}</p>
     </div>
   )

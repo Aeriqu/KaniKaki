@@ -20,7 +20,7 @@ export default function Home() {
         <p>That has its own SRS tracking.</p>
       </div>
       <div>
-        <p className='underline decoration-solid'><a href='https://github.com/Aeriqu/KaniKaki'>That&apos;s fully open source!</a></p>
+        <p className='underline decoration-solid'><a href='https://github.com/Aeriqu/KaniKaki'>That&apos;s open source!</a></p>
       </div>
       <div>
         <p>That has a funny looking crab with a paint brush (no wani here).</p>
