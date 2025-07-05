@@ -29,6 +29,7 @@
 
 For manually updating a user's level limit:
 ```
+mongosh --username mongodb-auth-test-username
 use auth
-db.users.updateOne( { username: "testUser" }, { $set: { wanikani_level_limit: 5 } } )
+db.users.updateOne( { username: "testUser" }, { $set: { wanikani_level_limit: 60 } } )
 ```
