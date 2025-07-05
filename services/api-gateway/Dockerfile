@@ -9,6 +9,7 @@ COPY ./common ./common
 COPY ./services/api-gateway ./services/api-gateway
 COPY ./services/auth/proto ./services/auth/proto
 COPY ./services/kanji/proto ./services/kanji/proto
+COPY ./services/srs/proto ./services/srs/proto
 RUN go build -o /usr/bin/api-gateway ./services/api-gateway
 
 

@@ -258,7 +258,7 @@ func (db *ProviderMongodb) UpdateUserCredential(username string, newCredential s
 func (db *ProviderMongodb) UpdateSpecificUserToken(username string, oldToken string, newToken string, newTokenExpiration int64) (*models.User, error) {
 	userFilter := bson.D{{Key: "username", Value: username}}
 
-	tokenFilter := []interface{}{bson.M{
+	tokenFilter := []any{bson.M{
 		"elem.jwt": oldToken,
 	}}
 

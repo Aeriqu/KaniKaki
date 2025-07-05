@@ -1,0 +1,26 @@
+meta {
+  name: Get Due Kanji Reviews
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: http://localhost/api
+  body: graphql
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
+}
+
+body:graphql {
+  query {
+    getDueKanjiReviews(identifier: "testUser") {
+      Topic
+      Subject
+      Level
+      ReviewTime
+    }
+  }
+}

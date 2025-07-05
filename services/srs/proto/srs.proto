@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package aeriqu.kanikaki.srs;
+
+option go_package = "github.com/Aeriqu/kanikaki/services/srs";
+
+service Srs {
+  rpc GetAllKanjiReviewData (IdentifierRequest) returns (stream KanjiReviewDataResponse) {}
+  rpc GetDueKanjiReviews (IdentifierRequest) returns (stream KanjiReviewDataResponse) {}
+  rpc UpdateKanjiReviewData (KanjiReviewDataRequest) returns (KanjiReviewDataResponse) {}
+}
+
+message IdentifierRequest {
+  string identifier = 1;
+  string auth_token = 2;
+}
+
+message KanjiReviewDataRequest {
+  string identifier = 1;
+  string character = 2;
+  int32 srs_level = 3;
+  int64 review_time = 4;
+  string auth_token = 5;
+}
+
+message KanjiReviewDataResponse {
+  string character = 1;
+  int32 srs_level = 2;
+  int64 review_time = 3;
+}

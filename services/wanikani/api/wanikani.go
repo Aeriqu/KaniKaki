@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/Aeriqu/kanikaki/common/logger"
-	"github.com/Aeriqu/kanikaki/common/models"
+	"github.com/Aeriqu/kanikaki/services/wanikani/models"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

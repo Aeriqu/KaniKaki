@@ -1,11 +1,12 @@
 # build the apps
 .PHONY: build-all
-build-all: proto-gen api-gateway auth kanji wanikani web
+build-all: proto-gen api-gateway auth kanji srs wanikani web
 
 .PHONY: proto-gen
 proto-gen:
 	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/auth/proto/auth.proto
 	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/kanji/proto/kanji.proto
+	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/srs/proto/srs.proto
 	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative ./services/wanikani/proto/wanikani.proto
 
 .PHONY: api-gateway
@@ -19,6 +20,10 @@ auth:
 .PHONY: kanji
 kanji:
 	docker build -t aeriqu/kanikaki/kanji:latest --file ./services/kanji/Dockerfile .
+
+.PHONY: srs
+srs:
+	docker build -t aeriqu/kanikaki/srs:latest --file ./services/srs/Dockerfile .
 
 .PHONY: wanikani
 wanikani:

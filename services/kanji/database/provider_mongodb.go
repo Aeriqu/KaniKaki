@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/Aeriqu/kanikaki/common/logger"
-	"github.com/Aeriqu/kanikaki/common/models"
+	"github.com/Aeriqu/kanikaki/services/kanji/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -70,7 +70,7 @@ func (db *ProviderMongodb) testConnection() bool {
 func (db *ProviderMongodb) AddMultipleKanji(kanjiList []models.Kanji) (string, error) {
 	collection := db.getKanjiCollection()
 
-	insertInterface := make([]interface{}, len(kanjiList))
+	insertInterface := make([]any, len(kanjiList))
 	insertOptions := options.InsertMany().SetOrdered(false)
 
 	for index := range kanjiList {

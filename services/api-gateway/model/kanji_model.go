@@ -14,13 +14,13 @@ type WaniKaniTokenRequest struct {
 }
 
 type KanjiResponse struct {
-	Character string
-	WanikaniId int32
+	Character     string
+	WanikaniId    int32
 	WanikaniLevel int32
-	Meanings *[]string
-	Onyomi *[]string
-	Kunyomi *[]string
-	Nanori *[]string
+	Meanings      *[]string
+	Onyomi        *[]string
+	Kunyomi       *[]string
+	Nanori        *[]string
 }
 
 type LoadKanjiResponse struct {

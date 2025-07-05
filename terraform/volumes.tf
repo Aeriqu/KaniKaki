@@ -85,3 +85,43 @@ resource "kubernetes_persistent_volume_v1" "mongodb-kanji" {
     }
   }
 }
+
+resource "kubernetes_persistent_volume_claim_v1" "mongodb-srs" {
+  metadata {
+    name      = "mongodb-srs-volume-claim"
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
+  }
+  spec {
+    volume_name        = "${kubernetes_persistent_volume_v1.mongodb-srs.metadata.0.name}"
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = "local-storage"
+    resources {
+      requests = {
+        storage = kubernetes_persistent_volume_v1.mongodb-srs.spec.0.capacity.storage
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_v1" "mongodb-srs" {
+  metadata {
+    name = "mongodb-srs-volume"
+  }
+  spec {
+    access_modes                     = ["ReadWriteOnce"]
+    persistent_volume_reclaim_policy = "Retain"
+    volume_mode                      = "Filesystem"
+    storage_class_name               = "local-storage"
+
+    capacity = {
+      storage = "2Gi"
+    }
+
+    persistent_volume_source {
+      host_path {
+        path = "/apps/kanikaki/volumes/mongodb-srs-volume"
+        type = "DirectoryOrCreate"
+      }
+    }
+  }
+}

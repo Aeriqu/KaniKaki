@@ -4,7 +4,7 @@ package database
 
 import (
 	"github.com/Aeriqu/kanikaki/common/logger"
-	"github.com/Aeriqu/kanikaki/common/models"
+	"github.com/Aeriqu/kanikaki/services/kanji/models"
 )
 
 type Database struct {

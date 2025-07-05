@@ -7,7 +7,7 @@ import (
 	"io"
 
 	"github.com/Aeriqu/kanikaki/common/logger"
-	"github.com/Aeriqu/kanikaki/common/models"
+	"github.com/Aeriqu/kanikaki/services/kanji/models"
 	tokenValidator "github.com/Aeriqu/kanikaki/common/token"
 	"github.com/Aeriqu/kanikaki/services/kanji/database"
 	kanjipb "github.com/Aeriqu/kanikaki/services/kanji/proto"

@@ -4,7 +4,7 @@
 package model
 
 type ChangePasswordRequest struct {
-	Identifier *string
+	Identifier    *string
 	OldCredential *string
 	NewCredential *string
 }

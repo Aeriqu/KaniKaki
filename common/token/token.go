@@ -30,7 +30,7 @@ func GetClaims(token string) (jwt.MapClaims, error) {
 
 	tokenData, err := jwt.Parse(token, validateTokenMethod)
 	if err != nil {
-		logger.Error("error parsing token", err)
+		logger.Error(fmt.Sprintf("error parsing token (%s)", token), err)
 		return claims, status.Error(codes.Aborted, "error parsing token")
 	}
 

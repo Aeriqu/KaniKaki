@@ -1,0 +1,6 @@
+type ReviewData {
+  Topic: String!
+  Subject: String!
+  Level: Int!
+  ReviewTime: Float! # This isn't full 64 bit, and will run out at 2^53 -1 seconds. Will need to be updated if this becomes an issue.
+}

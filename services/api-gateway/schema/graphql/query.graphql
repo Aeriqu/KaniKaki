@@ -7,6 +7,10 @@ type Query {
   # Kanji
   getKanji(kanji: String): KanjiResponse!
   getKanjiByLevelRange(lowerBound: Int, upperBound: Int): [KanjiResponse!]!
+
+  # Srs
+  getAllKanjiReviewData(identifier: String): [ReviewData!]!
+  getDueKanjiReviews(identifier: String): [ReviewData!]!
 }
 
 type Mutation {
@@ -19,4 +23,7 @@ type Mutation {
 
   # Kanji
   loadAllKanji(wanikaniToken: String): LoadKanjiResponse!
+
+  # Srs
+  updateReviewData(identifier: String, subject: String, topic: String, level: Int, reviewTime: Float): ReviewData!
 }

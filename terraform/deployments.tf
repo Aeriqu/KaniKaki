@@ -279,6 +279,123 @@ resource "kubernetes_stateful_set_v1" "mongodb-kanji" {
   }
 }
 
+resource "kubernetes_stateful_set_v1" "mongodb-srs" {
+  metadata {
+    name      = "mongodb-srs-set"
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
+
+    labels = {
+      app = "mongodb-srs-set"
+    }
+  }
+  spec {
+    service_name = "mongodb-srs-set"
+    replicas     = 1
+    selector {
+      match_labels = {
+        app = "mongodb-srs-set"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "mongodb-srs-set"
+        }
+      }
+      spec {
+        container {
+          image             = var.mongodb_image_version
+          image_pull_policy = "IfNotPresent"
+          name              = "mongodb-srs"
+
+          port {
+            container_port = 27017
+          }
+
+          env {
+            name  = "MONGO_INITDB_ROOT_USERNAME"
+            value = var.mongodb_srs_username
+          }
+
+          env {
+            name  = "MONGO_INITDB_ROOT_PASSWORD"
+            value = var.mongodb_srs_password
+          }
+
+          env {
+            name  = "MONGO_INITDB_DATABASE"
+            value = "srs"
+          }
+
+          volume_mount {
+            name       = "mongodb-srs-volume-data-db"
+            mount_path = "/data/db"
+          }
+        }
+
+        volume {
+          name = "mongodb-srs-volume-data-db"
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim_v1.mongodb-srs.metadata.0.name
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment_v1" "srs" {
+  metadata {
+    name      = "srs-deployment"
+    namespace = kubernetes_namespace_v1.kanikaki.metadata.0.name
+
+    labels = {
+      app = "srs-deployment"
+    }
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = {
+        app = "srs-deployment"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "srs-deployment"
+        }
+      }
+      spec {
+        container {
+          image             = "aeriqu/kanikaki/srs:latest"
+          image_pull_policy = "Never"
+          name              = "srs"
+
+          port {
+            container_port = 8080
+          }
+
+          env {
+            name  = "MONGODB_USERNAME"
+            value = var.mongodb_srs_username
+          }
+
+          env {
+            name  = "MONGODB_PASSWORD"
+            value = var.mongodb_srs_password
+          }
+
+          env {
+            name  = "JWT_SIGNING_KEY"
+            value = var.jwt_signing_key
+          }
+        }
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment_v1" "wanikani" {
   metadata {
     name      = "wanikani-deployment"
@@ -320,7 +437,6 @@ resource "kubernetes_deployment_v1" "wanikani" {
     }
   }
 }
-
 
 resource "kubernetes_deployment_v1" "web" {
   metadata {

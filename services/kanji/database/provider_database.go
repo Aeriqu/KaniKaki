@@ -1,6 +1,6 @@
 package database
 
-import "github.com/Aeriqu/kanikaki/common/models"
+import "github.com/Aeriqu/kanikaki/services/kanji/models"
 
 // ProviderDatabase is an interface to enforce similar basic actions amongst
 // all database providers.
